@@ -32,7 +32,32 @@ class ApiService {
       throw Exception('Failed to add student');
     }
   }
+
+  Future<void> updateStudents(int id, Student student) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/update/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(student.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update student');
+    }
+  }
+
+  Future<void> deleteStudent(int id) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/delete/$id'),
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete student');
+    }
+  }
 }
+
+
 
 /**  
  * Kesimpulan Perbedaan

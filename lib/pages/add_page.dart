@@ -1,4 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
+// // ignore_for_file: library_private_types_in_public_api
+
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 
@@ -109,13 +111,22 @@ class _StudentFormPageState extends State<StudentFormPage> {
                           );
 
                           try {
-                            await apiService.addStudents(student);
+                            if (widget.student != null &&
+                                widget.student!.id != null) {
+                              await apiService.updateStudents(
+                                widget.student!.id!,
+                                student,
+                              );
+                            } else {
+                              await apiService.addStudents(student);
+                            }
                             widget.onSave(student);
-                            Navigator.pop(context,
-                                true); // Return true to indicate success
+                            Navigator.pop(context, true);
+                            // Return true to indicate success
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Failed to add student')),
+                              const SnackBar(
+                                  content: Text('Failed to add student')),
                             );
                           } finally {
                             setState(() {
